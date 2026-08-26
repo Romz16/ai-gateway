@@ -1,0 +1,63 @@
+[build-system]
+requires = ["hatchling>=1.26,<2"]
+build-backend = "hatchling.build"
+
+[project]
+name = "production-ai-gateway"
+version = "0.1.0"
+description = "A reference gateway for reliable, secure and cost-aware LLM access."
+readme = "README.md"
+requires-python = ">=3.12"
+license = "MIT"
+dependencies = [
+  "fastapi>=0.115,<1", "uvicorn>=0.34,<1", "pydantic-settings>=2.7,<3",
+  "sqlalchemy[asyncio]>=2.0.36,<3", "asyncpg>=0.30,<1", "alembic>=1.14,<2",
+  "redis>=5.2,<7", "httpx>=0.28,<1", "jsonschema>=4.23,<5",
+  "prometheus-client>=0.21,<1", "opentelemetry-sdk>=1.29,<2",
+  "opentelemetry-exporter-otlp-proto-http>=1.29,<2"
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.3,<10", "pytest-asyncio>=0.25,<2", "pytest-cov>=6,<8",
+  "hypothesis>=6.120,<7", "ruff>=0.9,<1", "mypy>=1.14,<2",
+  "types-jsonschema>=4.23", "aiosqlite>=0.20,<1", "fakeredis[lua]>=2.26,<3",
+  "pip-audit>=2.7,<3", "bandit>=1.8,<2", "pyyaml>=6,<7"
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["app"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+markers = ["integration: requires real PostgreSQL and Redis"]
+addopts = "-ra"
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+
+[tool.mypy]
+plugins = ["pydantic.mypy"]
+python_version = "3.12"
+check_untyped_defs = true
+disallow_untyped_defs = true
+ignore_missing_imports = true
+
+[tool.coverage.run]
+source = ["app"]
+omit = ["app/cli.py", "app/fake_server.py"]
+
+[tool.coverage.report]
+show_missing = true
+fail_under = 80
+
+[tool.pydantic-mypy]
+init_typed = false
+
+[tool.ruff.lint.flake8-bugbear]
+extend-immutable-calls = ['fastapi.Depends', 'fastapi.Header', 'authorize']

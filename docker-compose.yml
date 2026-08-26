@@ -1,0 +1,113 @@
+name: production-ai-gateway
+x-gateway-env: &gateway-env
+  APP_ENV: local
+  DATABASE_URL: postgresql+asyncpg://gateway:local@postgres:5432/gateway
+  REDIS_URL: redis://redis:6379/0
+  FAKE_PROVIDER_URL: http://fake-provider:8001
+  OTEL_ENDPOINT: http://jaeger:4318/v1/traces
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: gateway
+      POSTGRES_PASSWORD: local
+      POSTGRES_DB: gateway
+    volumes: [postgres-data:/var/lib/postgresql/data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U gateway -d gateway"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+
+  redis:
+    image: redis:7.4-alpine
+    command: ["redis-server", "--save", "", "--appendonly", "no", "--maxmemory", "256mb", "--maxmemory-policy", "noeviction"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+
+  migrate:
+    build: .
+    environment: *gateway-env
+    command: ["alembic", "upgrade", "head"]
+    depends_on:
+      postgres: {condition: service_healthy}
+
+  bootstrap:
+    build: .
+    environment: *gateway-env
+    command: ["python", "-m", "app.cli", "bootstrap", "--output", "/srv/secrets/demo-api-key"]
+    volumes: [demo-secrets:/srv/secrets]
+    depends_on:
+      migrate: {condition: service_completed_successfully}
+
+  fake-provider:
+    build: .
+    env_file: .env
+    command: ["uvicorn", "app.fake_server:app", "--host", "0.0.0.0", "--port", "8001", "--no-access-log"]
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8001/health')"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  gateway:
+    build: .
+    env_file: .env
+    environment: *gateway-env
+    ports: ["127.0.0.1:8000:8000"]
+    volumes: [demo-secrets:/srv/secrets:ro]
+    read_only: true
+    tmpfs: [/tmp]
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    depends_on:
+      bootstrap: {condition: service_completed_successfully}
+      redis: {condition: service_healthy}
+      fake-provider: {condition: service_healthy}
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/ready')"]
+      interval: 10s
+      timeout: 4s
+      retries: 5
+    restart: unless-stopped
+
+  prometheus:
+    image: prom/prometheus:v3.2.1
+    volumes: ["./docker/prometheus.yml:/etc/prometheus/prometheus.yml:ro", "./docker/alerts.yml:/etc/prometheus/alerts.yml:ro"]
+    ports: ["127.0.0.1:9090:9090"]
+    command: ["--config.file=/etc/prometheus/prometheus.yml", "--storage.tsdb.retention.time=7d"]
+
+  grafana:
+    image: grafana/grafana:11.6.0
+    environment:
+      GF_AUTH_ANONYMOUS_ENABLED: "true"
+      GF_AUTH_ANONYMOUS_ORG_ROLE: Viewer
+      GF_AUTH_DISABLE_LOGIN_FORM: "true"
+    volumes: ["./docker/grafana/provisioning:/etc/grafana/provisioning:ro", "./docker/grafana/dashboards:/var/lib/grafana/dashboards:ro"]
+    ports: ["127.0.0.1:3000:3000"]
+
+  jaeger:
+    image: jaegertracing/all-in-one:1.67.0
+    environment:
+      COLLECTOR_OTLP_ENABLED: "true"
+    ports: ["127.0.0.1:16686:16686"]
+
+  tests:
+    profiles: [test]
+    build: {context: ., target: test}
+    environment:
+      TEST_DATABASE_URL: postgresql+asyncpg://gateway:local@postgres:5432/gateway
+      TEST_REDIS_URL: redis://redis:6379/1
+    depends_on:
+      migrate: {condition: service_completed_successfully}
+      redis: {condition: service_healthy}
+
+volumes:
+  postgres-data:
+  demo-secrets:

@@ -1,0 +1,36 @@
+ Container production-ai-gateway-tests-run-e63440c182bb Creating 
+ Container production-ai-gateway-tests-run-e63440c182bb Created 
+........................................................................ [ 63%]
+..........................................                               [100%]
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.12.14-final-0 _______________
+
+Name                             Stmts   Miss  Cover   Missing
+--------------------------------------------------------------
+app/__init__.py                      0      0   100%
+app/api/__init__.py                  0      0   100%
+app/api/middleware.py               64      5    92%   20-21, 80, 94, 98
+app/core/__init__.py                 0      0   100%
+app/core/config.py                  39      1    97%   40
+app/core/errors.py                   8      0   100%
+app/domain/__init__.py               0      0   100%
+app/domain/models.py                83      3    96%   38, 40, 42
+app/infrastructure/__init__.py       0      0   100%
+app/infrastructure/controls.py      66      1    98%   147
+app/infrastructure/database.py     117     15    87%   102, 106, 143-149, 163, 179, 192-195, 224, 226, 235-238
+app/main.py                        161     35    78%   55-107, 149-150, 179-182, 193, 201, 289, 301
+app/observability/__init__.py        0      0   100%
+app/observability/telemetry.py      35      1    97%   66
+app/providers/__init__.py            0      0   100%
+app/providers/fake.py               58     10    83%   13, 20, 23-27, 70, 72, 76
+app/providers/http.py               86      6    93%   21, 24, 38-39, 69, 185
+app/services/__init__.py             0      0   100%
+app/services/generation.py          58      0   100%
+app/services/resilience.py         101      7    93%   48-49, 61, 105, 107, 180, 200
+app/services/routing.py             31      0   100%
+app/services/security.py            41      2    95%   51, 59
+app/services/validation.py          29      2    93%   37, 41
+--------------------------------------------------------------
+TOTAL                              977     88    91%
+Required test coverage of 80.0% reached. Total coverage: 90.99%
+114 passed in 12.92s

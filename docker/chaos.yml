@@ -1,0 +1,4 @@
+services:
+  fake-provider:
+    environment:
+      FAKE_PROVIDER_FAILURE_RATE: "1"

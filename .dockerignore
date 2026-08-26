@@ -1,0 +1,15 @@
+.git
+.env
+.venv
+__pycache__
+.pytest_cache
+.mypy_cache
+.ruff_cache
+.hypothesis
+.coverage
+*.db
+*.egg-info
+secrets
+benchmarks/results
+docs/validation
+.benchmark-work

@@ -1,0 +1,47 @@
+{
+  "generated_at": "2026-08-26T16:33:53.469330+00:00",
+  "python": "3.13.1",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "seed": 42,
+  "experiment": "cost",
+  "environment": "Sequential ASGI requests; SQLite; fakeredis with Lua; in-process FakeProvider",
+  "warning": "Synthetic prices and deterministic fixtures. No vendor quality, production SLO or cloud performance claim.",
+  "results": [
+    {
+      "scenario": "baseline",
+      "requests": 1000,
+      "elapsed_seconds": 63.42802120000124,
+      "p50_ms": 56.071999948471785,
+      "p95_ms": 83.8083999697119,
+      "p99_ms": 125.21640001796186,
+      "throughput_rps": 15.765902531419039,
+      "success_rate": 1.0,
+      "fallback_rate": 0.0,
+      "cache_hit_rate": 0.0,
+      "quality_proxy": 1.0,
+      "total_estimated_cost_usd": "0.1638000000",
+      "cost_per_request_usd": "0.0001638000",
+      "tokens_per_request": 23.4,
+      "provider_attempts": 1000,
+      "injected_failure_rate": 0
+    },
+    {
+      "scenario": "gateway",
+      "requests": 1000,
+      "elapsed_seconds": 26.35847289999947,
+      "p50_ms": 18.46499997191131,
+      "p95_ms": 56.83800007682294,
+      "p99_ms": 100.04920000210404,
+      "throughput_rps": 37.93846494043364,
+      "success_rate": 1.0,
+      "fallback_rate": 0.0,
+      "cache_hit_rate": 0.99,
+      "quality_proxy": 1.0,
+      "total_estimated_cost_usd": "0.0000543000",
+      "cost_per_request_usd": "5.43E-8",
+      "tokens_per_request": 0.234,
+      "provider_attempts": 10,
+      "injected_failure_rate": 0
+    }
+  ]
+}

@@ -1,0 +1,104 @@
+[
+  {
+    "id": "class-1",
+    "task": "classification",
+    "input": "This is a great service.",
+    "expected": "positive",
+    "method": "exact"
+  },
+  {
+    "id": "class-2",
+    "task": "classification",
+    "input": "A good experience overall.",
+    "expected": "positive",
+    "method": "exact"
+  },
+  {
+    "id": "class-3",
+    "task": "classification",
+    "input": "An excellent product.",
+    "expected": "positive",
+    "method": "exact"
+  },
+  {
+    "id": "class-4",
+    "task": "classification",
+    "input": "The box arrived today.",
+    "expected": "neutral",
+    "method": "exact"
+  },
+  {
+    "id": "summary-1",
+    "task": "summarization",
+    "input": "The gateway routes requests through a shared policy layer. It validates data before contacting a model. The service records token usage without storing prompts.",
+    "expected": "gateway",
+    "method": "contains"
+  },
+  {
+    "id": "summary-2",
+    "task": "summarization",
+    "input": "Teams can use one API to access several model providers. Explicit limits keep retries bounded and spending visible.",
+    "expected": "API",
+    "method": "contains"
+  },
+  {
+    "id": "summary-3",
+    "task": "summarization",
+    "input": "A circuit breaker temporarily stops calls to an unhealthy provider. A permitted fallback can continue the request.",
+    "expected": "circuit",
+    "method": "contains"
+  },
+  {
+    "id": "extract-1",
+    "task": "extraction",
+    "input": "Extract the category.",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "category": {
+          "type": "string",
+          "enum": [
+            "general"
+          ]
+        }
+      },
+      "required": [
+        "category"
+      ],
+      "additionalProperties": false
+    },
+    "expected": {
+      "category": "general"
+    },
+    "method": "exact"
+  },
+  {
+    "id": "extract-2",
+    "task": "extraction",
+    "input": "Extract the count.",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "count": {
+          "type": "integer",
+          "const": 2
+        }
+      },
+      "required": [
+        "count"
+      ],
+      "additionalProperties": false
+    },
+    "expected": {
+      "count": 2
+    },
+    "method": "exact"
+  },
+  {
+    "id": "reason-1",
+    "task": "reasoning",
+    "input": "What is 6 * 7?",
+    "expected": "42",
+    "method": "exact"
+  }
+]

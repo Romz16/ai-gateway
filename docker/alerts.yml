@@ -1,0 +1,26 @@
+groups:
+  - name: gateway
+    rules:
+      - alert: GatewayUnavailable
+        expr: up{job="ai-gateway"} == 0
+        for: 2m
+        labels: {severity: critical}
+        annotations: {summary: "Gateway metrics target is unavailable"}
+      - alert: ProviderErrorRate
+        expr: sum(rate(gateway_provider_requests_total{outcome!="success"}[5m])) / clamp_min(sum(rate(gateway_provider_requests_total[5m])), 0.01) > 0.1
+        for: 5m
+        labels: {severity: warning}
+        annotations: {summary: "Provider failures exceed ten percent"}
+      - alert: CircuitOpened
+        expr: sum(increase(gateway_circuit_open_total[5m])) > 0
+        labels: {severity: warning}
+        annotations: {summary: "A provider circuit opened"}
+      - alert: HighLatency
+        expr: histogram_quantile(0.95, sum by(le) (rate(gateway_request_seconds_bucket[5m]))) > 5
+        for: 5m
+        labels: {severity: warning}
+        annotations: {summary: "Gateway end-to-end P95 latency exceeds five seconds"}
+      - alert: DependencyUnavailable
+        expr: sum(increase(gateway_events_total{event="dependency_unavailable"}[5m])) > 0
+        labels: {severity: critical}
+        annotations: {summary: "A required dependency is unavailable"}

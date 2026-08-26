@@ -1,0 +1,9 @@
+{
+  "ready": true,
+  "generation": true,
+  "structured": true,
+  "idempotency": true,
+  "tenant_isolation": true,
+  "invalid_key_rejected": true,
+  "trace_id": "74ac9cb977a43794ac193d6dc79fb2ab"
+}

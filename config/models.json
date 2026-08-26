@@ -1,0 +1,9 @@
+{
+  "version": "demo-2026-08-26",
+  "models": [
+    {"provider":"fake","model":"demo-small","input_per_million":"0.10","output_per_million":"0.20","quality":2,"expected_latency_ms":10,"context_tokens":65536,"tasks":["classification","summarization","extraction"],"effective_from":"2026-08-26","pricing_note":"Synthetic demonstration prices, not vendor rates."},
+    {"provider":"fake","model":"demo-strong","input_per_million":"3.00","output_per_million":"12.00","quality":3,"expected_latency_ms":20,"context_tokens":65536,"tasks":["classification","summarization","extraction","reasoning","code_analysis"],"effective_from":"2026-08-26","pricing_note":"Synthetic demonstration prices, not vendor rates."},
+    {"provider":"fake_backup","model":"demo-backup-small","input_per_million":"0.15","output_per_million":"0.30","quality":2,"expected_latency_ms":15,"context_tokens":65536,"tasks":["classification","summarization","extraction"],"effective_from":"2026-08-26","pricing_note":"Synthetic demonstration prices, not vendor rates."},
+    {"provider":"fake_backup","model":"demo-backup-strong","input_per_million":"4.00","output_per_million":"15.00","quality":3,"expected_latency_ms":25,"context_tokens":65536,"tasks":["classification","summarization","extraction","reasoning","code_analysis"],"effective_from":"2026-08-26","pricing_note":"Synthetic demonstration prices, not vendor rates."}
+  ]
+}

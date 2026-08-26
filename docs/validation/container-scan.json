@@ -1,0 +1,37 @@
+{
+  "SchemaVersion": 2,
+  "CreatedAt": "2026-08-26T16:45:23.044722438Z",
+  "ArtifactName": "/image.tar",
+  "ArtifactType": "container_image",
+  "Metadata": {
+    "OS": {
+      "Family": "debian",
+      "Name": "13.6"
+    },
+    "ImageID": "sha256:3f0870c21f842d95888a3d184afede51cc08509ef6d5cc01a11f39722c5fdadc",
+    "DiffIDs": [
+      "sha256:411a86676185cb54d695a805b238194a64e9b77e0c723f3802fbb87d333ea0b3",
+      "sha256:ebad55931d5b35d9cf64ab801f5b6f4e96821c5fcd17f4109e5774b039114014",
+      "sha256:f19f6d6c86377e4b77a2a5b5d8f56e7ecb205193e6f6b68aa74f61e382427936",
+      "sha256:6fdca0968d0fffb99492a80150c0c18077f7452fe77b70e950c3aefaf85dfe54",
+      "sha256:43034334b972074150fa1a9f1c5112482d506d330c74540c71119f0bb7208f1e",
+      "sha256:6eaa90d70e244b62c58afb677252020860cdb390de1b4d3b4a4f66ca6077d24d",
+      "sha256:81d09813e84d6631beb66c31bbced55715609e0a00de82d96052364abe7c0d90",
+      "sha256:96ad1b1dd343916d9e82cbdcde149171519c6861150f7e5ca13dfb73721b25a0",
+      "sha256:c7f8bb23ba38c0efb044a6500a31ccb4e386d45591e7a2635d63b10148046ea8",
+      "sha256:75aa7d9f22632da29874306dbdf6b43bff019f7238a43486fc8003646520348f"
+    ]
+  },
+  "Results": [
+    {
+      "Target": "/image.tar (debian 13.6)",
+      "Class": "os-pkgs",
+      "Type": "debian"
+    },
+    {
+      "Target": "Python",
+      "Class": "lang-pkgs",
+      "Type": "python-pkg"
+    }
+  ]
+}
