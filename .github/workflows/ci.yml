@@ -32,7 +32,7 @@ jobs:
       - run: bandit -r app -q
       - run: pip-audit -r requirements.lock
       - run: docker build -t ai-gateway:ci .
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with: {name: coverage, path: coverage.xml}
   secret-scan:
     runs-on: ubuntu-latest
