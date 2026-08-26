@@ -20,7 +20,7 @@ dependencies = [
 [project.optional-dependencies]
 dev = [
   "pytest>=8.3,<10", "pytest-asyncio>=0.25,<2", "pytest-cov>=6,<8",
-  "hypothesis>=6.120,<7", "ruff>=0.9,<1", "mypy>=1.14,<2",
+  "hypothesis>=6.120,<7", "ruff>=0.9,<1", "mypy>=1.14,<3",
   "types-jsonschema>=4.23", "aiosqlite>=0.20,<1", "fakeredis[lua]>=2.26,<3",
   "pip-audit>=2.7,<3", "bandit>=1.8,<2", "pyyaml>=6,<7"
 ]
